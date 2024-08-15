@@ -1,6 +1,6 @@
 package com.lucaskwak.product_app_backend.service.impl;
 
-import com.lucaskwak.product_app_backend.dto.inAndOut.ProductDto;
+import com.lucaskwak.product_app_backend.dto.in.ProductDto;
 import com.lucaskwak.product_app_backend.exception.CategoryNotFoundException;
 import com.lucaskwak.product_app_backend.exception.ProductNotFoundException;
 import com.lucaskwak.product_app_backend.persistence.entity.Category;

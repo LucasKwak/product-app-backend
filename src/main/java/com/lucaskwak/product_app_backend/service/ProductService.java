@@ -1,6 +1,6 @@
 package com.lucaskwak.product_app_backend.service;
 
-import com.lucaskwak.product_app_backend.dto.inAndOut.ProductDto;
+import com.lucaskwak.product_app_backend.dto.in.ProductDto;
 import com.lucaskwak.product_app_backend.persistence.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

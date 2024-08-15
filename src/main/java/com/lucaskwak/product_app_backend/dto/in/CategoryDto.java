@@ -1,4 +1,4 @@
-package com.lucaskwak.product_app_backend.dto.inAndOut;
+package com.lucaskwak.product_app_backend.dto.in;
 
 
 import java.io.Serializable;
