@@ -1,0 +1,22 @@
+volumes:
+  mysql-volume:
+
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mybackend
+    container_name: mysql-docker-compose
+    volumes:
+      - mysql-volume:/var/lib/mysql
+
+  my-app:
+    build: . #Indicamos que el docker file esta en el mismo nivel
+    image: my-app:v3 #Imagen que se va a crear cuando se haga el "docker-compose up --build -d"
+    ports:
+      - "8181:9191" #exterior:contenedor
+    container_name: my-app-docker-compose
+    depends_on:
+      - db
