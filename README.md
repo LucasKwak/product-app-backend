@@ -1,6 +1,6 @@
 # PRODUCT APP BACKEND
 
-Backend para mi aplicación de productos. En él utilizo SpringSecurity, SpringJPA y SpringWeb.
+Backend para mi aplicación de productos. En él utilizo SpringSecurity, SpringJPA y SpringWeb. 
 
 ## Tabla de Contenidos
 
@@ -95,6 +95,19 @@ Los endpoints que hay son:
   - POST .../my-backend/auth/logout : para cerrar sesión
 
   - POST .../my-backend/customers : para registrar un cliente
+
+### Security
+
+Para la seguridad utilizo jwt (tuve que crear un filtro para la gestión de estos jwt) y además un authorization manager personalizado (para profundizar en cómo se comprueba si un usuario tiene los permisos necesarios). En la bd también se guardan los jwt que un usuario puede tener (esto se hace para que cuando cierre sesión el jwt que estaba usando quede invalidado). 
+
+### Base de datos
+
+En la base de datos se guarda toda la información de los usuarios, los roles que hay, las operaciones que hay, los módulos que hay, los productos y las categorías.
+
+El ER de la base de datos es el siguiente:
+
+<img width="600" alt="BD-ER" src="https://github.com/user-attachments/assets/9ea00fe2-9802-44f5-9317-7d424aa2f832">
+
 
 
 
