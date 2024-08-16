@@ -21,12 +21,6 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @GetMapping("/validate")
-    public ResponseEntity<Boolean> validate (@RequestParam String jwt) {
-        boolean isTokenValid = authenticationService.validateToken(jwt);
-        return ResponseEntity.ok(isTokenValid);
-    }
-
     @GetMapping("/profile")
     // Deberia devoler un dto, pero no lo cree que me da pereza
     public ResponseEntity<ProfileUser> getProfile() {

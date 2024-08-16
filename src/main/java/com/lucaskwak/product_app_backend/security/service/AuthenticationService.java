@@ -13,8 +13,6 @@ public interface AuthenticationService {
 
     AuthenticationResponse login(AuthenticationRequest authenticationRequest);
 
-    Boolean validateToken(String jwt);
-
     ProfileUser findLoggedInUser();
 
     void logout(HttpServletRequest request);
