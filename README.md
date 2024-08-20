@@ -67,7 +67,9 @@ Cada rol puede realizar unas determinadas operaciones:
     - READ_ALL_CUSTOMERS
   - Customer:
     - READ_ALL_PRODUCTS
+    - READ_ONE_PRODUCT
     - READ_ALL_CATEGORIES
+    - READ_ONE_CATEGORY
     - READ_MY_PROFILE
   - Operaciones públicas:
     - REGISTER_ONE

@@ -32,7 +32,9 @@ INSERT INTO role (name) VALUES ('ADMINISTRATOR');
 
 -- CREACIÓN DE PERMISOS
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 1);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 2);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 6);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 7);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 15);
 
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 1);
