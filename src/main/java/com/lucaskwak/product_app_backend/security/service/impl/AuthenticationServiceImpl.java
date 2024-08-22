@@ -11,6 +11,8 @@ import com.lucaskwak.product_app_backend.security.persistence.entity.User;
 import com.lucaskwak.product_app_backend.security.service.AuthenticationService;
 import com.lucaskwak.product_app_backend.security.service.JwtService;
 import com.lucaskwak.product_app_backend.security.service.UserService;
+import com.lucaskwak.product_app_backend.security.service.util.RegisteredUserWithJwt;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +20,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private Map<String, Object> generateExtraClaims(User user) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("name", user.getName());
+        extraClaims.put("email", user.getEmail());
         extraClaims.put("role", user.getRole().getName());
         extraClaims.put("authorities", user.getAuthorities());
 
@@ -51,7 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public RegisteredUser registerOneCustomer(UserDto saveUser) {
+    public RegisteredUserWithJwt registerOneCustomer(UserDto saveUser) {
 
         // Guardamos en la BD al usuario (customer)
         User user = userService.registerOneCustomer(saveUser);
@@ -61,14 +63,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         userDtoResponse.setId(user.getId());
         userDtoResponse.setName(user.getName());
         userDtoResponse.setUsername(user.getUsername());
+        userDtoResponse.setEmail(user.getEmail());
+        userDtoResponse.setAuthProvider(user.getAuthProvider());
         userDtoResponse.setRole(user.getRole().getName());
 
         // Hay que crear el JWT
         String jwt = jwtService.generateToken(user, generateExtraClaims(user));
         saveJwt(user, jwt);
-        userDtoResponse.setJwt(jwt);
 
-        return userDtoResponse;
+        RegisteredUserWithJwt registeredUserWithJwt = new RegisteredUserWithJwt();
+        registeredUserWithJwt.setRegisteredUser(userDtoResponse);
+        registeredUserWithJwt.setJwt(jwt);
+
+        return registeredUserWithJwt;
     }
 
     @Override
@@ -136,23 +143,61 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public void logout(HttpServletRequest request) {
-        // 1. Obtener del header http el encabezado llamado Autherization
-        String authorizationHeader = request.getHeader("Authorization");
 
-        // En caso de que venga sin texto o si no empieza como tiene que empezar, seguimos
-        // con los filtros, ya que en algun momento saltara una excepcion
-        if (!StringUtils.hasText(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
+        Cookie[] cookies = request.getCookies();
+        String jwt = "some_token";
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                // Buscar la cookie que te interesa por su nombre
+                if ("JWT_TOKEN".equals(cookie.getName())) {
+                    // Obtener el valor de la cookie
+                    jwt = cookie.getValue();
+                }
+            }
+        }else{
             return;
         }
-        // 2. Obtener el jwt que hay en el encabezado
-        // Separamos el encabezado en dos strings y nos quedamos con el segundo (este es el jwt)
-        String jwt = authorizationHeader.split(" ")[1];
 
         Optional<JwtToken> token = jwtService.findTokenByToken(jwt);
 
         if (token.isPresent() && token.get().isValid()) {
             token.get().setValid(false);
             jwtService.updateToken(token.get());
+        }
+    }
+
+    @Override
+    public Boolean validateToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String jwt = "some_token";
+        boolean thereIsJwtTokenInCookie = false;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                // Buscar la cookie que te interesa por su nombre
+                if ("JWT_TOKEN".equals(cookie.getName())) {
+                    // Obtener el valor de la cookie
+                    jwt = cookie.getValue();
+                    thereIsJwtTokenInCookie = true;
+                }
+            }
+        } else {
+            // No se encontraron cookies
+            return false;
+        }
+
+        if (!thereIsJwtTokenInCookie) {
+            // No se encontro la cookie necesaria
+            return false;
+        }
+
+        try {
+            jwtService.extractUsername(jwt);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 }
