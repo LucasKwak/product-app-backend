@@ -48,7 +48,6 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
         if(isPublic) {
             return new AuthorizationDecision(true);
         }
-        System.out.printf("NO ES PUBLICO");
 
         // Si sigue por aqui, el endpoint requiere de cierta autenticacion y autorizacion
 
