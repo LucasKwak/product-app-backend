@@ -20,10 +20,10 @@ INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_CUSTOMERS','', 'GET', false, 3);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('REGISTER_ONE','', 'POST', true, 3);
 
-INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('LOGIN','/login', 'GET', true, 4);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('AUTHENTICATE','/authenticate', 'POST', true, 4);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('READ_MY_PROFILE','/profile','GET', false, 4);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('LOG_OUT','/logout','POST', true, 4);
+INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('VALIDATE-TOKEN','/validate-token', 'GET', true, 4);
 
 -- CREACIÓN DE ROLES
 INSERT INTO role (name) VALUES ('CUSTOMER');
@@ -35,7 +35,7 @@ INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 1);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 2);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 6);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 7);
-INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 15);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 14);
 
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 1);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 2);
@@ -43,7 +43,7 @@ INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 4);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 6);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 7);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 9);
-INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 15);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 14);
 
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 1);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 2);
@@ -55,12 +55,12 @@ INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 7);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 8);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 9);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 10);
-INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 15);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 14);
 
 -- CREACIÓN DE USUARIOS
-INSERT INTO appuser (username, name, password, role_id) VALUES ('lmarquez', 'luis márquez', '$2a$10$ywh1O2EwghHmFIMGeHgsx.9lMw5IXpg4jafeFS.Oi6nFv0181gHli', 1);
-INSERT INTO appuser (username, name, password, role_id) VALUES ('fperez', 'fulano pérez', '$2a$10$V29z7/qC9wpHfzRMxGOHye5RMAxCid2/MzJalk0dsiA3zZ9CJfub.', 2);
-INSERT INTO appuser (username, name, password, role_id) VALUES ('mhernandez', 'mengano hernández', '$2a$10$TMbMuEZ8utU5iq8MOoxpmOc6QWQuYuwgx1xJF8lSMNkKP3hIrwYFG', 3);
+INSERT INTO appuser (username, email, name, password, auth_provider, role_id) VALUES ('lmarquez', 'lmarquez@gmail.com', 'luis márquez', '$2a$10$ywh1O2EwghHmFIMGeHgsx.9lMw5IXpg4jafeFS.Oi6nFv0181gHli', 'NORMAL', 1);
+INSERT INTO appuser (username, email, name, password, auth_provider, role_id) VALUES ('fperez', 'fperez@gmail.com', 'fulano pérez', '$2a$10$V29z7/qC9wpHfzRMxGOHye5RMAxCid2/MzJalk0dsiA3zZ9CJfub.', 'NORMAL',  2);
+INSERT INTO appuser (username, email, name, password, auth_provider, role_id) VALUES ('mhernandez', 'mhernandez@gmail.com', 'mengano hernández', '$2a$10$TMbMuEZ8utU5iq8MOoxpmOc6QWQuYuwgx1xJF8lSMNkKP3hIrwYFG', 'NORMAL', 3);
 
 -- CREACIÓN DE CATEGORIAS
 INSERT INTO category (name, status) VALUES ('Electrónica', 'ENABLED');
