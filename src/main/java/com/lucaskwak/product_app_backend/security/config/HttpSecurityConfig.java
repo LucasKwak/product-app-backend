@@ -3,6 +3,7 @@ package com.lucaskwak.product_app_backend.security.config;
 import com.lucaskwak.product_app_backend.security.config.filter.JwtAuthenticationFilter;
 import com.lucaskwak.product_app_backend.security.config.handler.CustomAccessDeniedHandler;
 import com.lucaskwak.product_app_backend.security.config.handler.CustomAuthenticationEntryPoint;
+import com.lucaskwak.product_app_backend.security.oauth2.OAuth2LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,17 +40,22 @@ public class HttpSecurityConfig {
     // Para comprobar nosotros manualmente las autorizaciones de las peticiones
     private final AuthorizationManager<RequestAuthorizationContext> authorizationManager;
 
+    // Para la autenticacion mediante google con auth2
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
     @Autowired
     public HttpSecurityConfig(AuthenticationProvider authenticationProvider,
                               JwtAuthenticationFilter jwtAuthenticationFilter,
                               CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
                               CustomAccessDeniedHandler customAccessDeniedHandler,
-                              AuthorizationManager<RequestAuthorizationContext> authorizationManager) {
+                              AuthorizationManager<RequestAuthorizationContext> authorizationManager,
+                              OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
         this.daoAuthProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
         this.authorizationManager = authorizationManager;
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
 
     @Bean
@@ -76,6 +82,9 @@ public class HttpSecurityConfig {
                             exceptionHandlingConfigurer.accessDeniedHandler(customAccessDeniedHandler);
                         }
                 )
+                .oauth2Login(oauth2Configurer -> {
+                    oauth2Configurer.successHandler(oAuth2LoginSuccessHandler);
+                })
                 .build();
     }
 
