@@ -10,6 +10,7 @@ import com.lucaskwak.product_app_backend.security.service.JwtService;
 import com.lucaskwak.product_app_backend.security.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,20 +44,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         System.out.println("ENTRO EN EL JWT AUTHENTICATION");
 
-        // 1. Obtener del header http el encabezado llamado Autherization
-        String autherizationHeader = request.getHeader("Authorization");
+        // Ahora el JWT va a venir dentro de las cookies httpOnly que envie el frontend mediante
+        Cookie[] cookies = request.getCookies();
+        String jwt = "some_token";
+        boolean thereIsJwtTokenInCookie = false;
 
-        // En caso de que venga sin texto o si no empieza como tiene que empezar, seguimos
-        // con los filtros, ya que en algun momento saltara una excepcion
-        if (!StringUtils.hasText(autherizationHeader) || !autherizationHeader.startsWith("Bearer ")) {
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                // Buscar la cookie que te interesa por su nombre
+                if ("JWT_TOKEN".equals(cookie.getName())) {
+                    // Obtener el valor de la cookie
+                    jwt = cookie.getValue();
+                    thereIsJwtTokenInCookie = true;
+                }
+            }
+        } else {
+            // No se encontraron cookies
             filterChain.doFilter(request, response);
             return;
         }
-        // 2. Obtener el jwt que hay en el encabezado
-        // Separamos el encabezado en dos strings y nos quedamos con el segundo (este es el jwt)
-        String jwt = autherizationHeader.split(" ")[1];
 
-
+        if (!thereIsJwtTokenInCookie) {
+            // No se encontro la cookie necesaria
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // 3. Obtener el subject (username) del jwt
         //    Esta accion a su vez valida si el jwt es correcto o incorrecto
