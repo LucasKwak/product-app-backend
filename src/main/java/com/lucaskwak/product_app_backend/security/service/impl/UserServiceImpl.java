@@ -2,6 +2,7 @@ package com.lucaskwak.product_app_backend.security.service.impl;
 
 import com.lucaskwak.product_app_backend.security.dto.in.UserDto;
 import com.lucaskwak.product_app_backend.security.exception.DefaultRoleNotFoundException;
+import com.lucaskwak.product_app_backend.security.oauth2.AuthProvider;
 import com.lucaskwak.product_app_backend.security.persistence.entity.Role;
 import com.lucaskwak.product_app_backend.security.persistence.entity.User;
 import com.lucaskwak.product_app_backend.security.persistence.repository.UserRepository;
@@ -35,7 +36,15 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(saveUser.getName());
         user.setUsername(saveUser.getUsername());
-        user.setPassword(passwordEncoder.encode(saveUser.getPassword()));
+        user.setEmail(saveUser.getEmail());
+        user.setAuthProvider(saveUser.getAuthProvider());
+
+        // Tenemos que ver si viene de un proveedor o se esta registrando con contraseña
+        if(!saveUser.getAuthProvider().equals(AuthProvider.NORMAL)){
+            user.setPassword(null);
+        }else{
+            user.setPassword(passwordEncoder.encode(saveUser.getPassword()));
+        }
 
         Role defaultRole = roleService.findDefaultRole().orElseThrow(() -> new DefaultRoleNotFoundException("No se ha encontrado un rol por defecto"));
 
@@ -47,5 +56,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findOneUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<User> findOneUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

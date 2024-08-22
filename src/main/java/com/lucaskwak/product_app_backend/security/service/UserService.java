@@ -11,4 +11,6 @@ public interface UserService {
     public User registerOneCustomer(UserDto saveUser);
 
     public Optional<User> findOneUserByUsername(String username);
+
+    public Optional<User> findOneUserByEmail(String email);
 }
