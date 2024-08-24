@@ -24,6 +24,7 @@ INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('READ_MY_PROFILE','/profile','GET', false, 4);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('LOG_OUT','/logout','POST', true, 4);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('VALIDATE-TOKEN','/validate-token', 'GET', true, 4);
+INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('GET-ROLE','/get-role', 'GET', true, 4);
 
 -- CREACIÓN DE ROLES
 INSERT INTO role (name) VALUES ('CUSTOMER');
@@ -67,18 +68,40 @@ INSERT INTO category (name, status) VALUES ('Electrónica', 'ENABLED');
 INSERT INTO category (name, status) VALUES ('Ropa', 'ENABLED');
 INSERT INTO category (name, status) VALUES ('Deportes', 'ENABLED');
 INSERT INTO category (name, status) VALUES ('Hogar', 'ENABLED');
+INSERT INTO category (name, status) VALUES ('Juguetes', 'ENABLED');
 
 -- CREACIÓN DE PRODUCTOS
 INSERT INTO product (name, price, status, category_id) VALUES ('Smartphone', 500.00, 'ENABLED', 1);
 INSERT INTO product (name, price, status, category_id) VALUES ('Auriculares Bluetooth', 50.00, 'DISABLED', 1);
 INSERT INTO product (name, price, status, category_id) VALUES ('Tablet', 300.00, 'ENABLED', 1);
+INSERT INTO product (name, price, status, category_id) VALUES ('Laptop', 1200.00, 'ENABLED', 1);
+INSERT INTO product (name, price, status, category_id) VALUES ('Smartwatch', 200.00, 'DISABLED', 1);
+INSERT INTO product (name, price, status, category_id) VALUES ('Auriculares In-ear', 80.00, 'ENABLED', 1);
+
 
 INSERT INTO product (name, price, status, category_id) VALUES ('Camiseta', 25.00, 'ENABLED', 2);
 INSERT INTO product (name, price, status, category_id) VALUES ('Pantalones', 35.00, 'ENABLED', 2);
 INSERT INTO product (name, price, status, category_id) VALUES ('Zapatos', 45.00, 'ENABLED', 2);
+INSERT INTO product (name, price, status, category_id) VALUES ('Chaqueta', 75.00, 'ENABLED', 2);
+INSERT INTO product (name, price, status, category_id) VALUES ('Bufanda', 15.00, 'ENABLED', 2);
+INSERT INTO product (name, price, status, category_id) VALUES ('Gorro', 12.00, 'DISABLED', 2);
+
 
 INSERT INTO product (name, price, status, category_id) VALUES ('Balón de Fútbol', 20.00, 'ENABLED', 3);
 INSERT INTO product (name, price, status, category_id) VALUES ('Raqueta de Tenis', 80.00, 'DISABLED', 3);
+INSERT INTO product (name, price, status, category_id) VALUES ('Camiseta de Fútbol', 30.00, 'ENABLED', 3);
+INSERT INTO product (name, price, status, category_id) VALUES ('Guantes de Boxeo', 90.00, 'ENABLED', 3);
+INSERT INTO product (name, price, status, category_id) VALUES ('Pelota de Baloncesto', 40.00, 'DISABLED', 3);
+
 
 INSERT INTO product (name, price, status, category_id) VALUES ('Aspiradora', 120.00, 'ENABLED', 4);
 INSERT INTO product (name, price, status, category_id) VALUES ('Licuadora', 50.00, 'ENABLED', 4);
+INSERT INTO product (name, price, status, category_id) VALUES ('Batidora', 60.00, 'ENABLED', 4);
+INSERT INTO product (name, price, status, category_id) VALUES ('Tostadora', 40.00, 'ENABLED', 4);
+INSERT INTO product (name, price, status, category_id) VALUES ('Freidora', 80.00, 'DISABLED', 4);
+
+
+
+INSERT INTO product (name, price, status, category_id) VALUES ('Muñeca', 25.00, 'ENABLED', 5);
+INSERT INTO product (name, price, status, category_id) VALUES ('Tren Eléctrico', 150.00, 'ENABLED', 5);
+INSERT INTO product (name, price, status, category_id) VALUES ('Puzzles', 20.00, 'DISABLED', 5);

@@ -200,4 +200,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return false;
         }
     }
+
+    @Override
+    public String getRole(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String jwt = "some_token";
+
+        // No hace falta hacer comprobaciones, siempre va a haber cookies y va a haber la cookie que necesitamos
+        // El getRole en el frontend se va a llamar justo despues de haber hecho un register, login o un validate token
+        // con una respuesta valida
+        for (Cookie cookie : cookies) {
+            // Buscar la cookie que te interesa por su nombre
+            if ("JWT_TOKEN".equals(cookie.getName())) {
+                // Obtener el valor de la cookie
+                jwt = cookie.getValue();
+            }
+        }
+
+        // No va a fallar nunca por la misma explicacion que antes
+        return jwtService.extractRole(jwt);
+    }
 }

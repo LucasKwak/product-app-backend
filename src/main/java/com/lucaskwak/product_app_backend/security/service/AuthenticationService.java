@@ -18,4 +18,6 @@ public interface AuthenticationService {
     void logout(HttpServletRequest httpServletRequest);
 
     Boolean validateToken(HttpServletRequest httpServletRequest);
+
+    String getRole(HttpServletRequest httpServletRequest);
 }

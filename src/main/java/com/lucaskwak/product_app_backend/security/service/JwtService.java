@@ -12,6 +12,8 @@ public interface JwtService {
 
     String extractUsername(String jwt);
 
+    String extractRole(String jwt);
+
     void createToken(JwtToken jwtToken);
 
     Optional<JwtToken> findTokenByToken(String token);

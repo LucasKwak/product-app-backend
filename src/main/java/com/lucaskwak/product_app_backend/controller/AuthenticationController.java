@@ -4,6 +4,7 @@ import com.lucaskwak.product_app_backend.security.dto.in.AuthenticationRequest;
 import com.lucaskwak.product_app_backend.security.dto.out.AuthenticationResponse;
 import com.lucaskwak.product_app_backend.security.dto.out.LogoutResponse;
 import com.lucaskwak.product_app_backend.security.dto.out.ProfileUser;
+import com.lucaskwak.product_app_backend.security.dto.out.RoleResponse;
 import com.lucaskwak.product_app_backend.security.service.AuthenticationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -68,5 +69,13 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> validate (HttpServletRequest httpServletRequest) {
         boolean isTokenValid = authenticationService.validateToken(httpServletRequest);
         return ResponseEntity.ok(isTokenValid);
+    }
+
+    @GetMapping("/get-role")
+    public ResponseEntity<RoleResponse> getRole (HttpServletRequest httpServletRequest) {
+        String roleName = authenticationService.getRole(httpServletRequest);
+        RoleResponse roleResponse = new RoleResponse();
+        roleResponse.setRole(roleName);
+        return ResponseEntity.ok(roleResponse);
     }
 }

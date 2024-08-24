@@ -24,6 +24,7 @@ INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('READ_MY_PROFILE','/profile','GET', false, 4);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('LOG_OUT','/logout','POST', true, 4);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('VALIDATE-TOKEN','/validate-token', 'GET', true, 4);
+INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('GET-ROLE','/get-role', 'GET', true, 4);
 
 -- CREACIÓN DE ROLES
 INSERT INTO role (name) VALUES ('CUSTOMER');

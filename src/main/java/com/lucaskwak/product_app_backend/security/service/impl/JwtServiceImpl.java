@@ -78,6 +78,12 @@ public class JwtServiceImpl implements JwtService {
         return extractAllClaims(jwt).getSubject();
     }
 
+    @Override
+    public String extractRole(String jwt) {
+        // Como el claim role lo creamos a mayores lo hay que sacar manualmente
+        return extractAllClaims(jwt).get("role", String.class);
+    }
+
     private Claims extractAllClaims(String jwt) {
 
         /*
