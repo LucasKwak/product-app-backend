@@ -91,7 +91,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
                                 // Redirige al frontend (o a donde desees)
                                 try {
-                                    getRedirectStrategy().sendRedirect(request, response, "http://localhost:8080");
+                                    getRedirectStrategy().sendRedirect(request, response, "http://localhost:8080/home");
                                 } catch (IOException e) {
                                     System.out.println(e.getMessage());
                                     throw new RuntimeException(e);
@@ -111,19 +111,17 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                                 String jwt = registeredUserWithJwt.getJwt();
 
                                 Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt);
-                                jwtCookie.setHttpOnly(false);  // Previene el acceso desde JavaScript en el navegador
+                                jwtCookie.setHttpOnly(true);  // Previene el acceso desde JavaScript en el navegador
                                 jwtCookie.setSecure(false);    // Solo se envía a través de conexiones HTTPS
                                 jwtCookie.setPath("/");       // Hace que la cookie esté disponible en toda la aplicación
                                 jwtCookie.setMaxAge(24 * 60 * 60);  // Duración de la cookie (1 día en este caso)
 
                                 // Agrega la cookie a la respuesta
                                 response.addCookie(jwtCookie);
-                                System.out.println("ESTO SE EJECUTA 2");
 
                                 // Redirige al frontend (o a donde desees)
                                 try {
-                                    getRedirectStrategy().sendRedirect(request, response, "http://localhost:8080/sign-up");
-                                    System.out.println("HE LLEGADO AQUIOIJFOSIJ 2");
+                                    getRedirectStrategy().sendRedirect(request, response, "http://localhost:8080/home");
                                 } catch (IOException e) {
                                     System.out.println(e.getMessage());
                                     throw new RuntimeException(e);
