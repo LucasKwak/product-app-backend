@@ -140,5 +140,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String apiErrorAsString = objectMapper.writeValueAsString(apiErrorResponse);
         // Escribimos el json en la respuesta
         response.getWriter().write(apiErrorAsString);
+
+        // Esto es para eliminar la cookie del jwt
+        // Por ejemplo, si la cookie tiene un jwt invalido (malformado, caducado, )
+        Cookie cookie = new Cookie("JWT_TOKEN", "");
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
     }
 }

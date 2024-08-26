@@ -68,6 +68,9 @@ public class AuthenticationController {
     @GetMapping("/validate-token")
     public ResponseEntity<Boolean> validate (HttpServletRequest httpServletRequest) {
         boolean isTokenValid = authenticationService.validateToken(httpServletRequest);
+
+        // Como se entra primero en el jwt filter, no hace falta eliminar la cookie si el token es invalido,
+        // ya que en el jwt filter ya se hizo esa eliminacion en dicho caso.
         return ResponseEntity.ok(isTokenValid);
     }
 
